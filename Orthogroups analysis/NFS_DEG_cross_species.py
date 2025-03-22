@@ -2,23 +2,23 @@ import re
 import pandas as pd
 
 # read AM response genes in different species
-AMs_Mt_data = pd.read_csv("/home/wuzefeng/MyResearch/RNA-Seq_WET/Medicago_RNA/analysis_result/Mt_CK_RZ.deg.csv",index_col=0)
+AMs_Mt_data = pd.read_csv("/home/wuzefeng/MyResearch/Medicago_RNA/analysis_result/Mt_CK_RZ.deg.csv",index_col=0)
 AMs_Mt = list(AMs_Mt_data[AMs_Mt_data.change!="NOT"].index)
 
-AMs_Gm_data = pd.read_csv("/home/wuzefeng/MyResearch/RNA-Seq_WET/Gmax_RNA/analysis_result/Gm_DEG_RZ_CK.csv",index_col=0)
+AMs_Gm_data = pd.read_csv("/home/wuzefeng/MyResearch/Gmax_RNA/analysis_result/Gm_DEG_RZ_CK.csv",index_col=0)
 AMs_Gm = list(AMs_Gm_data[AMs_Gm_data.change!="NOT"].index)
 
-AMs_Lt_data = pd.read_csv("/home/wuzefeng/MyResearch/RNA-Seq_WET/Lotus_RNA/analysis_result/Lt_CK_RZ.deg.csv",index_col=0)
+AMs_Lt_data = pd.read_csv("/home/wuzefeng/MyResearch/Lotus_RNA/analysis_result/Lt_CK_RZ.deg.csv",index_col=0)
 AMs_Lt = list(AMs_Lt_data[AMs_Lt_data.change!="NOT"].index)
 
 
 All_AMs = AMs_Mt + AMs_Gm + AMs_Lt
 
-outfile = open("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous.V2","w")
-outfile2 = open("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous_genes","w")
+outfile = open("/home/wuzefeng/MyResearch/2cross_species_compare/NFS_orthogous.V2","w")
+outfile2 = open("/home/wuzefeng/MyResearch/2cross_species_compare/NFS_orthogous_genes","w")
 outfile.write("\t".join(["Orthogroups","Glycine_max","Glycine_max_AM","Lotus_japonicus","Lotus_japonicus_AM","Medicago_truncatula","Medicago_truncatula_AM","Oryza_sativa","Oryza_sativa_AM","Soly","Soly_AM","Maize","Maize_AM"])+"\n")
 
-with open("/home/wuzefeng/MyResearch/RNA-Seq_WET/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthogroups/Orthogroups.txt") as fh:
+with open("/home/wuzefeng/MyResearch//1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthogroups/Orthogroups.txt") as fh:
     for row in fh:
         data = row.strip().split(" ")
         ortho_group = data[0]

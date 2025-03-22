@@ -7,7 +7,7 @@ library(GOplot)
 library(mixOmics)
 
 
-fc_count_dir <-"~/MyResearch/ATAC_Seq_WET/Medicago_RNA/2feature_count/"
+fc_count_dir <-"~/MyResearch/Medicago_RNA/2feature_count/"
 fc_count_files <- grep(dir(fc_count_dir,full.names = TRUE),pattern = ".summary",invert = TRUE,value = TRUE)
 
 fc<-c()
@@ -44,7 +44,7 @@ tTag <- as.data.frame(tTag)
 logFC_cutoff<-1
 tTag$change<-as.factor(ifelse(tTag$FDR<0.01&abs(tTag$logFC)>logFC_cutoff,
                               ifelse(tTag$logFC>logFC_cutoff,"UP","DOWN"),"NOT"))
-save(tTag,file = "~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsAM.Rdata")
+save(tTag,file = "~/MyResearch/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsAM.Rdata")
 this_title <- paste0('Cutoff for logFC is ',round(logFC_cutoff,3),
                      '\nThe number of up-regulated gene is ',nrow(tTag[tTag$change =='UP',]) ,
                      '\nThe number of down-regulated gene is ',nrow(tTag[tTag$change =='DOWN',]))
@@ -86,12 +86,12 @@ known_genes_mapping <- na.omit(known_genes_mapping)
 colnames(known_genes_mapping) <- c("Gene_name","Gene_ID")
 known_genes_mapping$Gene_ID<- str_replace_all(known_genes_mapping$Gene_ID,pattern = "Medtr",replacement = "MTR_")
 degs_out$gene_name <- known_genes_mapping$Gene_name[match(rownames(degs_out),known_genes_mapping$Gene_ID)]
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/Mt_CK_AM.deg.csv",na = "")
+write.csv(degs_out,"~/MyResearch//Medicago_RNA/analysis_result/Mt_CK_AM.deg.csv",na = "")
 ## functions enrichment
 library(gprofiler2)
 library(GOplot)
 go_result <- gost(query = rownames(degs_out),evcodes = TRUE,organism = "mtruncatula")
-save(go_result,file = "~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/DEG_AM_GO_gprofile.Rdata")
+save(go_result,file = "~/MyResearch/Medicago_RNA/analysis_result/DEG_AM_GO_gprofile.Rdata")
 #load("DEG_GO_gprofile.Rdata")
 go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
@@ -108,7 +108,7 @@ tTag <- as.data.frame(tTag)
 logFC_cutoff<-1
 tTag$change<-as.factor(ifelse(tTag$FDR<0.01&abs(tTag$logFC)>logFC_cutoff,
                               ifelse(tTag$logFC>logFC_cutoff,"UP","DOWN"),"NOT"))
-save(tTag,file = "~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsRZ.Rdata")
+save(tTag,file = "~/MyResearch/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsRZ.Rdata")
 this_title <- paste0('Cutoff for logFC is ',round(logFC_cutoff,3),
                      '\nThe number of up-regulated gene is ',nrow(tTag[tTag$change =='UP',]) ,
                      '\nThe number of down-regulated gene is ',nrow(tTag[tTag$change =='DOWN',]))
@@ -145,13 +145,13 @@ down_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(logFC,FDR,change)%>%fi
 degs_out <- rbind(up_reg,down_reg) 
 
 degs_out$gene_name <- known_genes_mapping$Gene_name[match(rownames(degs_out),known_genes_mapping$Gene_ID)]
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/Mt_CK_RZ.deg.csv",na = "")
+write.csv(degs_out,"~/MyResearch//Medicago_RNA/analysis_result/Mt_CK_RZ.deg.csv",na = "")
 
 ## functions enrichment
 library(gprofiler2)
 library(GOplot)
 go_result <- gost(query = rownames(degs_out),evcodes = TRUE,organism = "mtruncatula")
-save(go_result,file = "~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/RZ_DEG_GO_gprofile.Rdata")
+save(go_result,file = "~/MyResearch//Medicago_RNA/analysis_result/RZ_DEG_GO_gprofile.Rdata")
 #load("DEG_GO_gprofile.Rdata")
 go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
@@ -165,7 +165,7 @@ GOCircle(circ,nsub = 20,label.size = 3)
 library(stringr)
 library(edgeR)
 
-fc_count_dir <-"~/MyResearch/ATAC_Seq_WET/Lotus_RNA/2feature_count/"
+fc_count_dir <-"~/MyResearch//Lotus_RNA/2feature_count/"
 fc_count_files <- grep(dir(fc_count_dir,full.names = TRUE),pattern = ".summary",invert = TRUE,value = TRUE)
 
 fc<-c()
@@ -208,7 +208,7 @@ tTag <- as.data.frame(tTag)
 logFC_cutoff<-1
 tTag$change<-as.factor(ifelse(tTag$FDR<0.01&abs(tTag$logFC)>logFC_cutoff,
                               ifelse(tTag$logFC>logFC_cutoff,"UP","DOWN"),"NOT"))
-save(tTag,file = "~/MyResearch/ATAC_Seq_WET/Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsAM.Rdata")
+save(tTag,file = "~/MyResearch//Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsAM.Rdata")
 this_title <- paste0('Cutoff for logFC is ',round(logFC_cutoff,3),
                      '\nThe number of up-regulated gene is ',nrow(tTag[tTag$change =='UP',]) ,
                      '\nThe number of down-regulated gene is ',nrow(tTag[tTag$change =='DOWN',]))
@@ -246,7 +246,7 @@ degs_out <- rbind(up_reg,down_reg)
 gene_anno <- read.delim("/home/wuzefeng/Genome.db/gff3/Lt.gene.description.txt",header = F,stringsAsFactors = F,sep="\t",comment.char = "")
 degs_out$gene_annotation <- gene_anno$V2[match(rownames(degs_out),gene_anno$V1)]
 
-write.csv(degs_out,file = "~/MyResearch/ATAC_Seq_WET/Lotus_RNA/analysis_result/Lt_CK_AM.deg.csv")
+write.csv(degs_out,file = "~/MyResearch//Lotus_RNA/analysis_result/Lt_CK_AM.deg.csv")
 ## functions enrichment
 ## clusterprofiler
 degs_out <- read.csv("~/MyResearch/RNA-Seq_WET/Lotus_RNA/analysis_result/Lt_CK_AM.deg.csv")
@@ -268,7 +268,7 @@ tTag <- as.data.frame(tTag)
 logFC_cutoff<-1
 tTag$change<-as.factor(ifelse(tTag$FDR<0.01&abs(tTag$logFC)>logFC_cutoff,
                               ifelse(tTag$logFC>logFC_cutoff,"UP","DOWN"),"NOT"))
-save(tTag,file = "~/MyResearch/ATAC_Seq_WET/Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsRZ.Rdata")
+save(tTag,file = "~/MyResearch//Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsRZ.Rdata")
 this_title <- paste0('Cutoff for logFC is ',round(logFC_cutoff,3),
                      '\nThe number of up-regulated gene is ',nrow(tTag[tTag$change =='UP',]) ,
                      '\nThe number of down-regulated gene is ',nrow(tTag[tTag$change =='DOWN',]))
@@ -306,7 +306,7 @@ degs_out <- rbind(up_reg,down_reg)
 
 gene_anno <- read.delim("/home/wuzefeng/Genome.db/gff3/Lt.gene.description.txt",header = F,stringsAsFactors = F,sep="\t",comment.char = "")
 degs_out$gene_annotation <- gene_anno$V2[match(rownames(degs_out),gene_anno$V1)]
-write.csv(degs_out,file = "~/MyResearch/ATAC_Seq_WET/Lotus_RNA/analysis_result/Lt_CK_RZ.deg.csv")
+write.csv(degs_out,file = "~/MyResearch//Lotus_RNA/analysis_result/Lt_CK_RZ.deg.csv")
 
 ## functions enrichment
 degs_out <- read.csv("~/MyResearch/RNA-Seq_WET/Lotus_RNA/analysis_result/Lt_CK_RZ.deg.csv")
@@ -328,7 +328,7 @@ write.csv(GO_enrich@result,"~/MyResearch/RNA-Seq_WET/Lotus_RNA/analysis_result/L
 library(stringr)
 library(edgeR)
 
-fc_count_dir <-"~/MyResearch/ATAC_Seq_WET/Gmax_RNA/2feature_count/"
+fc_count_dir <-"~/MyResearch//Gmax_RNA/2feature_count/"
 fc_count_files <- grep(dir(fc_count_dir,full.names = TRUE),pattern = ".summary",invert = TRUE,value = TRUE)
 
 fc<-c()
@@ -368,7 +368,7 @@ tTag <- as.data.frame(tTag)
 logFC_cutoff<-1
 tTag$change<-as.factor(ifelse(tTag$FDR<0.01&abs(tTag$logFC)>logFC_cutoff,
                               ifelse(tTag$logFC>logFC_cutoff,"UP","DOWN"),"NOT"))
-save(tTag,file = "~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/Gm_CK_vs_AM.Rdata")
+save(tTag,file = "~/MyResearch//Gmax_RNA/analysis_result/Gm_CK_vs_AM.Rdata")
 
 
 this_title <- paste0('Cutoff for logFC is ',round(logFC_cutoff,3),
@@ -404,18 +404,18 @@ p2<-ggplot(data=tTag,aes(x=logFC,y=-log10(FDR),color=change))+
 up_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(desc(logFC),FDR,change)%>%filter(logFC>1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 down_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(logFC,FDR,change)%>%filter(logFC< -1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 degs_out <- rbind(up_reg,down_reg) 
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/DEG_AM_CK.csv",row.names = T,quote = F)
+write.csv(degs_out,"~/MyResearch//Gmax_RNA/analysis_result/DEG_AM_CK.csv",row.names = T,quote = F)
 
 ## functions enrichment
 ## gprofiler
 go_result <- gost(query = rownames(degs_out),evcodes = T,organism = "gmax")
-save(go_result,file = "~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/DEG_CK_AM.GO_gprofile.Rdata")
+save(go_result,file = "~/MyResearch//Gmax_RNA/analysis_result/DEG_CK_AM.GO_gprofile.Rdata")
 #load("DEG_GO_gprofile.Rdata")
 go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
 go_deg <- data.frame(ID=rownames(degs_out),logFC=degs_out$logFC)
 circ <- circle_dat(go_reduce, go_deg)
-pdf("~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/Gm_DEG_CK_AM_GO_plot.pdf",width = 10,height = 7)
+pdf("~/MyResearch//Gmax_RNA/analysis_result/Gm_DEG_CK_AM_GO_plot.pdf",width = 10,height = 7)
 GOCircle(circ,nsub = 20,label.size = 3)
 dev.off()
 
@@ -428,7 +428,7 @@ tTag <- as.data.frame(tTag)
 logFC_cutoff<-1
 tTag$change<-as.factor(ifelse(tTag$FDR<0.01&abs(tTag$logFC)>logFC_cutoff,
                               ifelse(tTag$logFC>logFC_cutoff,"UP","DOWN"),"NOT"))
-save(tTag,file = "~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/Gm_CK_vs_RZ.Rdata")
+save(tTag,file = "~/MyResearch//Gmax_RNA/analysis_result/Gm_CK_vs_RZ.Rdata")
 
 this_title <- paste0('Cutoff for logFC is ',round(logFC_cutoff,3),
                      '\nThe number of up-regulated gene is ',nrow(tTag[tTag$change =='UP',]) ,
@@ -464,16 +464,16 @@ library(tidyverse)
 up_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(desc(logFC),FDR,change)%>%filter(logFC>1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 down_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(logFC,FDR,change)%>%filter(logFC< -1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 degs_out <- rbind(up_reg,down_reg) 
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/DEG_RZ_CK.csv",row.names = T,quote = F)
+write.csv(degs_out,"~/MyResearch//Gmax_RNA/analysis_result/DEG_RZ_CK.csv",row.names = T,quote = F)
 ## functions enrichment
 go_result <- gost(query = rownames(degs_out),evcodes = T,organism = "gmax")
-save(go_result,file = "~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/DEG_CK_RZ.GO_gprofile.Rdata")
+save(go_result,file = "~/MyResearch//Gmax_RNA/analysis_result/DEG_CK_RZ.GO_gprofile.Rdata")
 #load("DEG_GO_gprofile.Rdata")
 go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
 go_deg <- data.frame(ID=rownames(degs_out),logFC=degs_out$logFC)
 circ <- circle_dat(go_reduce, go_deg)
-pdf("/home/wuzefeng/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/Gm_DEG_CK_RZ.pdf",width = 10,height = 7)
+pdf("/home/wuzefeng/MyResearc//Gmax_RNA/analysis_result/Gm_DEG_CK_RZ.pdf",width = 10,height = 7)
 GOCircle(circ,nsub = 20,label.size = 3)
 dev.off()
 
@@ -484,7 +484,7 @@ dev.off()
 library(stringr)
 library(edgeR)
 
-fc_count_dir <-"~/MyResearch/ATAC_Seq_WET/Maize_RNA//2feature_count/"
+fc_count_dir <-"~/MyResearch//Maize_RNA//2feature_count/"
 fc_count_files <- grep(dir(fc_count_dir,full.names = TRUE),pattern = ".summary",invert = TRUE,value = TRUE)
 
 fc<-c()
@@ -560,7 +560,7 @@ p2<-ggplot(data=tTag,aes(x=logFC,y=-log10(FDR),color=change))+
 up_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(desc(logFC),FDR,change)%>%filter(logFC>1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 down_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(logFC,FDR,change)%>%filter(logFC< -1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 degs_out <- rbind(up_reg,down_reg) 
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Maize_RNA/analysis_result//DEG_AM_CK.csv",row.names = T,quote = F)
+write.csv(degs_out,"~/MyResearch//Maize_RNA/analysis_result//DEG_AM_CK.csv",row.names = T,quote = F)
 degs_out <- read.csv("~/MyResearch/RNA-Seq_WET/Maize_RNA/analysis_result/DEG_AM_CK.mod.csv",header = T)
 ## functions enrichment
 ## gprofiler
@@ -572,7 +572,7 @@ go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
 go_deg <- data.frame(ID=degs_out$X,logFC=degs_out$logFC)
 circ <- circle_dat(go_reduce, go_deg)
-pdf("/home/wuzefeng/MyResearch/ATAC_Seq_WET/Maize_RNA/analysis_result/Zm_DEG_CK_AM.pdf",width = 10,height = 7)
+pdf("/home/wuzefeng/MyResearch//Maize_RNA/analysis_result/Zm_DEG_CK_AM.pdf",width = 10,height = 7)
 GOCircle(circ,nsub = 20,label.size = 3)
 dev.off()
 
@@ -582,7 +582,7 @@ dev.off()
 library(stringr)
 library(edgeR)
 
-fc_count_dir <-"~/MyResearch/ATAC_Seq_WET/Sly_RNA/2feature_count/"
+fc_count_dir <-"~/MyResearch//Sly_RNA/2feature_count/"
 fc_count_files <- grep(dir(fc_count_dir,full.names = TRUE),pattern = ".summary",invert = TRUE,value = TRUE)
 
 fc<-c()
@@ -658,18 +658,18 @@ p2<-ggplot(data=tTag,aes(x=logFC,y=-log10(FDR),color=change))+
 up_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(desc(logFC),FDR,change)%>%filter(logFC>1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 down_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(logFC,FDR,change)%>%filter(logFC< -1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 degs_out <- rbind(up_reg,down_reg) 
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Sly_RNA/analysis_result//DEG_AM_CK.csv",row.names = T,quote = F)
+write.csv(degs_out,"~/MyResearch//Sly_RNA/analysis_result//DEG_AM_CK.csv",row.names = T,quote = F)
 
 ## functions enrichment
 ## gprofiler
 go_result <- gost(query = rownames(degs_out),evcodes = T,organism = "slycopersicum",sources = c("GO:BP", "GO:MF", "GO:CC"))
-save(go_result,file = "~/MyResearch/ATAC_Seq_WET/Sly_RNA/analysis_result/DEG_CK_AM.GO_BP_gprofile.Rdata")
+save(go_result,file = "~/MyResearch//Sly_RNA/analysis_result/DEG_CK_AM.GO_BP_gprofile.Rdata")
 #load("DEG_GO_gprofile.Rdata")
 go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
 go_deg <- data.frame(ID=rownames(degs_out),logFC=degs_out$logFC)
 circ <- circle_dat(go_reduce, go_deg)
-pdf("/home/wuzefeng/MyResearch/ATAC_Seq_WET/Sly_RNA//analysis_result/Sly_DEG_CK_AM_GO.pdf",width = 10,height = 7)
+pdf("/home/wuzefeng/MyResearch//Sly_RNA//analysis_result/Sly_DEG_CK_AM_GO.pdf",width = 10,height = 7)
 GOCircle(circ,nsub = 19,label.size = 3)
 dev.off()
 
@@ -679,7 +679,7 @@ dev.off()
 library(stringr)
 library(edgeR)
 
-fc_count_dir <-"~/MyResearch/ATAC_Seq_WET/Rice_RNA/2feature_count/"
+fc_count_dir <-"~/MyResearch//Rice_RNA/2feature_count/"
 fc_count_files <- grep(dir(fc_count_dir,full.names = TRUE),pattern = ".summary",invert = TRUE,value = TRUE)
 
 fc<-c()
@@ -755,22 +755,22 @@ p2<-ggplot(data=tTag,aes(x=logFC,y=-log10(FDR),color=change))+
 up_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(desc(logFC),FDR,change)%>%filter(logFC>1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 down_reg <- tTag%>%tibble::rownames_to_column()%>%arrange(logFC,FDR,change)%>%filter(logFC< -1,FDR<0.01)%>%tibble::column_to_rownames(var = "rowname")
 degs_out <- rbind(up_reg,down_reg) 
-gene_name <- read.table("~/MyResearch/ATAC_Seq_WET/Rice_RNA/analysis_result/rice_name.txt",sep="\t",header = T,quote = "")
+gene_name <- read.table("~/MyResearch//Rice_RNA/analysis_result/rice_name.txt",sep="\t",header = T,quote = "")
 
 degs_out$gene_name <- gene_name$Gene_name[match(rownames(degs_out),gene_name$Gene_ID)]
-write.csv(degs_out,"~/MyResearch/ATAC_Seq_WET/Rice_RNA/analysis_result/DEG_AM_CK.csv",row.names = T,quote = F,na = "")
+write.csv(degs_out,"~/MyResearch//Rice_RNA/analysis_result/DEG_AM_CK.csv",row.names = T,quote = F,na = "")
 
 ## functions enrichment
 ## gprofiler
 go_result <- gost(query = rownames(degs_out),evcodes = T,organism = "osativa")
-save(go_result,file = "~/MyResearch/ATAC_Seq_WET/Rice_RNA/analysis_result/DEG_CK_AM.GO_gprofile.Rdata")
+save(go_result,file = "~/MyResearch//Rice_RNA/analysis_result/DEG_CK_AM.GO_gprofile.Rdata")
 #load("DEG_GO_gprofile.Rdata")
 go_reduce <- go_result$result[,c(10,9,11,3,16)]
 colnames(go_reduce) <- c("category","ID","term","adj_pval","genes")
 go_deg <- data.frame(ID=rownames(degs_out),logFC=degs_out$logFC)
 circ <- circle_dat(go_reduce, go_deg)
 
-pdf("/home/wuzefeng/MyResearch/ATAC_Seq_WET/Rice_RNA//analysis_result/Rice_DEG_CK_AM_GO.pdf",width = 10,height = 7)
+pdf("/home/wuzefeng/MyResearch/Rice_RNA/analysis_result/Rice_DEG_CK_AM_GO.pdf",width = 10,height = 7)
 GOCircle(circ,nsub = 20,label.size = 3)
 dev.off()
 

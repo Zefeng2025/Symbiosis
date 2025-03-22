@@ -44,7 +44,7 @@ for m in range(0,len(target_genes)):
         
     # make training matrix
     dtrain=xgb.DMatrix(train_x,train_y) 
-    # 模型训练和预测
+    # train
     xgb_model = xgb.train(xgb_params, dtrain, 100)    
     ## output
     imp = pd.DataFrame()

@@ -13,17 +13,17 @@ import numpy as np
 
 data = pd.read_table("20220901_MtExpressV3-Dataset/data/gene/mtexpress_v3.tmm.matrix.gene.tsv",header=0,index_col=0) 
 data = data.T
-print(data.shape) # 1942个样品 X 50343个基因.
+print(data.shape) 
 #print(data.head)
 
-# 读取TF列表文件
+# read TFs 
 gene_type = pd.read_table("20220901_MtExpressV3-Dataset/annotation/MtrunA17r5.0-ANR.5.1.9.annotation.tsv",header=0,index_col=0) 
 #print(gene_type.shape)
 TFs = gene_type.index[gene_type["regulatorType"]=="transcription factor"]
 TFs = list(TFs)
 print(len(TFs),TFs[0:3]) # 3232 TFs
 
-# 参数设置
+
 xgb_params={
      'seed':0,
     'eta':0.1,
@@ -43,11 +43,11 @@ for m in range(43488,len(target_genes)):
     train_y = data[target_gene]
     train_x = data[list(set(list(data)) & set(TFs))] # using all TFs as train_x fatures 
     if target_gene in train_x.columns.values:
-        train_x = train_x.drop(target_gene, 1) # 如果预测的基因是TF，则从train_x去除
+        train_x = train_x.drop(target_gene, 1) 
         
     # make training matrix
     dtrain=xgb.DMatrix(train_x,train_y) 
-    # 模型训练和预测
+    # train
     xgb_model = xgb.train(xgb_params, dtrain, 100)    
     ## output
     imp = pd.DataFrame()
@@ -56,7 +56,7 @@ for m in range(43488,len(target_genes)):
     imp = imp.sort_values(["Fscore"],ascending=False)[0:10]
     imp["Target"] = target_gene
     imp["Num"] = m
-    imp.to_csv("/home/wuzefeng/MyResearch/1Gannong/6Medicago_reg/TF-target.boost.results.csv",header=False,mode='a',index=False)
+    imp.to_csv("TF-target.boost.results.csv",header=False,mode='a',index=False)
         
 
 

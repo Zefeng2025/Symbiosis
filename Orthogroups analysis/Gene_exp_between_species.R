@@ -4,9 +4,9 @@ library(stringr)
 library(readxl)
 
 # Medicago
-load("~/MyResearch/RNA-Seq_WET/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsAM.Rdata")
+load("~/MyResearch/RNA-Seq/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsAM.Rdata")
 Mt_CK_vs_AM <- tTag
-load("~/MyResearch/RNA-Seq_WET/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsRZ.Rdata")
+load("~/MyResearch/RNA-Seq/Medicago_RNA/analysis_result/Mt_EdgeR_CKvsRZ.Rdata")
 Mt_CK_vs_RZ <- tTag
 Mt_CK_vs_RZ$change[Mt_CK_vs_RZ$logFC>1&Mt_CK_vs_RZ$FDR<0.01]<-"DOWN"
 Mt_CK_vs_RZ$change[Mt_CK_vs_RZ$logFC< -1&Mt_CK_vs_RZ$FDR<0.01]<-"UP"
@@ -15,35 +15,35 @@ Mt_CK_vs_RZ$AM_fc <- Mt_CK_vs_AM$logFC[match(rownames(Mt_CK_vs_RZ),rownames(Mt_C
 cor(Mt_CK_vs_RZ$logFC,Mt_CK_vs_RZ$AM_fc) # 0.72
 
 ## Glymax
-load("~/MyResearch/RNA-Seq_WET/Gmax_RNA/analysis_result/Gm_CK_vs_AM.Rdata")
+load("~/MyResearch/RNA-Seq/Gmax_RNA/analysis_result/Gm_CK_vs_AM.Rdata")
 GM_CK_vs_AM <- tTag
-load("~/MyResearch/RNA-Seq_WET/Gmax_RNA/analysis_result/Gm_CK_vs_RZ.Rdata")
+load("~/MyResearch/RNA-Seq/Gmax_RNA/analysis_result/Gm_CK_vs_RZ.Rdata")
 GM_CK_vs_RZ <- tTag
 
 GM_CK_vs_RZ$AM_fc <- GM_CK_vs_AM$logFC[match(rownames(GM_CK_vs_RZ),rownames(GM_CK_vs_AM))]
 cor(GM_CK_vs_RZ$logFC,GM_CK_vs_RZ$AM_fc) # 0.56
 
 ### Lotus
-load("~/MyResearch/RNA-Seq_WET/Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsAM.Rdata")
+load("~/MyResearch/RNA-Seq/Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsAM.Rdata")
 Lt_CK_vs_AM <- tTag
-load("~/MyResearch/RNA-Seq_WET/Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsRZ.Rdata")
+load("~/MyResearch/RNA-Seq/Lotus_RNA/analysis_result/Lotus_EdgeR_CKvsRZ.Rdata")
 Lt_CK_vs_RZ <- tTag
 
 Lt_CK_vs_RZ$AM_fc <- Lt_CK_vs_AM$logFC[match(rownames(Lt_CK_vs_RZ),rownames(Lt_CK_vs_AM))]
 cor(Lt_CK_vs_RZ$logFC,Lt_CK_vs_RZ$AM_fc) 
 
 ## gene name mapping 
-known_genes_mapping <- read_excel("~/MyResearch/ATAC_Seq_WET/Medicago_RNA/analysis_result/Medicago_gene2name_mapping.xls")
+known_genes_mapping <- read_excel("~/MyResearch/RNA-Seq/Medicago_RNA/analysis_result/Medicago_gene2name_mapping.xls")
 known_genes_mapping <- known_genes_mapping[,c(1,2)]
 known_genes_mapping <- na.omit(known_genes_mapping)
 colnames(known_genes_mapping) <- c("Gene_name","Gene_ID")
 known_genes_mapping$Gene_ID<- str_replace_all(known_genes_mapping$Gene_ID,pattern = "Medtr",replacement = "MTR_")
 
 # gmax
-gmax_gene_mapping <- read.csv("~/MyResearch/ATAC_Seq_WET/Gmax_RNA/analysis_result/gmax_info/uniprot-compressed_true_download_true_fields_accession_2Creviewed_2C-2022.09.21-03.48.20.02.tsv",sep = "\t")
+gmax_gene_mapping <- read.csv("~/MyResearch/RNA-Seq/Gmax_RNA/analysis_result/gmax_info/uniprot-compressed_true_download_true_fields_accession_2Creviewed_2C-2022.09.21-03.48.20.02.tsv",sep = "\t")
 
 # lotus 
-lotus_gene_mapping <- read_xls("~/MyResearch/ATAC_Seq_WET/Lotus_RNA/analysis_result/lotus_info_from_unipot/lotus_gene_name.xls")
+lotus_gene_mapping <- read_xls("~/MyResearch/RNA-Seq/Lotus_RNA/analysis_result/lotus_info_from_unipot/lotus_gene_name.xls")
 
 ## plot
 df <- rbind(data.frame(x=Mt_CK_vs_RZ$logFC,y=Mt_CK_vs_RZ$AM_fc,species="M. truncatula"),
@@ -86,9 +86,9 @@ geom_hline(yintercept = c(-1,1), linetype = "dashed", color = "gray") +
 geom_vline(xintercept = c(-1,1), linetype = "dashed", color = "gray")
 
 ###### AM indueced genes
-Ri_CK_vs_AM<-read.csv("~/MyResearch/RNA-Seq_WET/Rice_RNA/analysis_result/DEG_AM_CK.csv",header = T,row.names = 1)
-Mz_CK_vs_AM <- read.csv("~/MyResearch/RNA-Seq_WET/Maize_RNA/analysis_result/DEG_AM_CK.csv",header = T,row.names = 1)
-Sy_CK_vs_AM <- read.csv("~/MyResearch/RNA-Seq_WET/Sly_RNA/analysis_result/DEG_AM_CK.csv",header = T,row.names = 1)
+Ri_CK_vs_AM<-read.csv("~/MyResearch/RNA-Seq/Rice_RNA/analysis_result/DEG_AM_CK.csv",header = T,row.names = 1)
+Mz_CK_vs_AM <- read.csv("~/MyResearch/RNA-Seq/Maize_RNA/analysis_result/DEG_AM_CK.csv",header = T,row.names = 1)
+Sy_CK_vs_AM <- read.csv("~/MyResearch/RNA-Seq/Sly_RNA/analysis_result/DEG_AM_CK.csv",header = T,row.names = 1)
 
 CK_AM <-  rbind(data.frame(Num=nrow(Mt_CK_vs_AM[Mt_CK_vs_AM$change=="UP",]),species="M. truncatula",change="Up-regulated"),
                 data.frame(Num=nrow(Mt_CK_vs_AM[Mt_CK_vs_AM$change=="DOWN",]),species="M. truncatula",change="Down-regulated"),
@@ -152,27 +152,27 @@ ggarrange(ggv_mt,ggv_gm,ggv_lt,ncol = 1)
 ##################################################
 
 ## ANS
-one2one_Ortholog <- read.table("~/MyResearch/ATAC_Seq_WET/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Glycine_max.txt",sep = "\t",header = F,stringsAsFactors = F) 
+one2one_Ortholog <- read.table("~/MyResearch/RNA-Seq/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Glycine_max.txt",sep = "\t",header = F,stringsAsFactors = F) 
 Mt_CK_vs_AM_with_Ortho <- subset(Mt_CK_vs_AM,rownames(Mt_CK_vs_AM)%in%one2one_Ortholog$V1)
 Mt_CK_vs_AM_with_Ortho$Gm <- one2one_Ortholog$V2[match(rownames(Mt_CK_vs_AM_with_Ortho),one2one_Ortholog$V1)]
 Mt_CK_vs_AM_with_Ortho$Gm_AM_logFC<-GM_CK_vs_AM$logFC[match(Mt_CK_vs_AM_with_Ortho$Gm,rownames(GM_CK_vs_AM))] # 0.31
 
 
-one2one_Ortholog <- read.table("~/MyResearch/ATAC_Seq_WET/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Lotus_japonicus.txt",sep = "\t",header = F,stringsAsFactors = F) 
+one2one_Ortholog <- read.table("~/MyResearch/RNA-Seq/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Lotus_japonicus.txt",sep = "\t",header = F,stringsAsFactors = F) 
 one2one_Ortholog$V2<-str_split_fixed(one2one_Ortholog$V2,pattern = "\\.",n = 2)[,1]
 Mt_CK_vs_AM_with_Ortho <- subset(Mt_CK_vs_AM,rownames(Mt_CK_vs_AM)%in%one2one_Ortholog$V1)
 Mt_CK_vs_AM_with_Ortho$Lt <- one2one_Ortholog$V2[match(rownames(Mt_CK_vs_AM_with_Ortho),one2one_Ortholog$V1)]
 Mt_CK_vs_AM_with_Ortho$Lt_AM_logFC<-Lt_CK_vs_AM$logFC[match(Mt_CK_vs_AM_with_Ortho$Lt,rownames(Lt_CK_vs_AM))] # 0.05, remove non-degs, 0.26
 
 ## NFS
-one2one_Ortholog <- read.table("~/MyResearch/ATAC_Seq_WET/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Glycine_max.txt",sep = "\t",header = F,stringsAsFactors = F) 
+one2one_Ortholog <- read.table("~/MyResearch/RNA-Seq/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Glycine_max.txt",sep = "\t",header = F,stringsAsFactors = F) 
 Mt_CK_vs_RZ_with_Ortho <- subset(Mt_CK_vs_RZ,rownames(Mt_CK_vs_RZ)%in%one2one_Ortholog$V1)
 Mt_CK_vs_RZ_with_Ortho$Gm <- one2one_Ortholog$V2[match(rownames(Mt_CK_vs_RZ_with_Ortho),one2one_Ortholog$V1)]
 Mt_CK_vs_RZ_with_Ortho<-subset(Mt_CK_vs_RZ_with_Ortho,abs(Mt_CK_vs_RZ_with_Ortho$logFC)>1)
 Mt_CK_vs_RZ_with_Ortho$Gm_RZ_logFC<-GM_CK_vs_RZ$logFC[match(Mt_CK_vs_RZ_with_Ortho$Gm,rownames(GM_CK_vs_RZ))] # -0.07
 cor(Mt_CK_vs_RZ_with_Ortho$logFC,Mt_CK_vs_RZ_with_Ortho$Gm_RZ_logFC,use = "complete") # -0.07, remove non-degs, -0.1
 
-one2one_Ortholog <- read.table("~/MyResearch/ATAC_Seq_WET/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Lotus_japonicus.txt",sep = "\t",header = F,stringsAsFactors = F) 
+one2one_Ortholog <- read.table("~/MyResearch/RNA-Seq/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthologues/Orthologues_Medicago_truncatula/Medicago_truncatula__v__Lotus_japonicus.txt",sep = "\t",header = F,stringsAsFactors = F) 
 one2one_Ortholog$V2<-str_split_fixed(one2one_Ortholog$V2,pattern = "\\.",n = 2)[,1]
 Mt_CK_vs_RZ_with_Ortho <- subset(Mt_CK_vs_RZ,rownames(Mt_CK_vs_RZ)%in%one2one_Ortholog$V1)
 Mt_CK_vs_RZ_with_Ortho$Lt <- one2one_Ortholog$V2[match(rownames(Mt_CK_vs_RZ_with_Ortho),one2one_Ortholog$V1)]
@@ -188,7 +188,7 @@ cor(Mt_CK_vs_RZ_with_Ortho$logFC,Mt_CK_vs_RZ_with_Ortho$Lt_RZ_logFC,use = "compl
 
 ## 1. by tpm
 
-one2ones <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthogroups/2sigle_copy.orthogrougp.mod.txt",header = F,stringsAsFactors = F)
+one2ones <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthogroups/2sigle_copy.orthogrougp.mod.txt",header = F,stringsAsFactors = F)
 one2ones$V2 <- str_split_fixed(one2ones$V2,pattern = "\\.",n = 2)[,1]
 
 Medicago_tpm <- read.csv("Medicago_RNA/analysis_result/Mt_TPM.csv",header = T,row.names = 1)
@@ -211,7 +211,7 @@ pheatmap::pheatmap(cor(t(t(scale(dd)))))
 ##2 by fpkm
 
 
-one2ones <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET//1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthogroups/2sigle_copy.orthogrougp.mod.txt",header = F,stringsAsFactors = F)
+one2ones <- read.table("/home/wuzefeng/MyResearch/RNA-Seq//1orthofinder/0proteins/OrthoFinder/Results_Sep27/Orthogroups/2sigle_copy.orthogrougp.mod.txt",header = F,stringsAsFactors = F)
 one2ones$V2 <- str_split_fixed(one2ones$V2,pattern = "\\.",n = 2)[,1]
 
 Medicago_fpkm <- read.csv("Medicago_RNA/analysis_result/Mt_FPKM.csv",header = T,row.names = 1)
@@ -264,7 +264,7 @@ upset(one2ones[,c(8:13)],nsets = 6,
 ########################################################
 ## ALL orthologous groups with degs
 ## python scripts
-aa <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)
+aa <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)
 aa[apply(aa,1,function(x)min(x)>=1),]
 
 dim(aa[apply(aa,1,function(x)sum(x[seq(2,12,2)]>=1)==1),]) # 9286
@@ -289,7 +289,7 @@ ggbarplot(df, x="species_num", y="orthogroup", fill = "steelblue", color = "whit
 ### NFS cross species comparison
 #######################################################
 ## python scripts
-aa <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)  # 64595
+aa <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)  # 64595
 aa <- aa[apply(aa,1,function(x)sum(x[seq(1,5,2)]>=1)==3),] # #13277
 
 
@@ -310,7 +310,7 @@ ggbarplot(df, x="species_num", y="orthogroup", fill = "steelblue", color = "whit
 
 
 ## detailed stats
-aa <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous",header = T,row.names = 1)  # 64595
+aa <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/NFS_orthogous",header = T,row.names = 1)  # 64595
 for (m in seq(1:3)){
   orthogroups_from_m_legume <- aa[apply(aa,1,function(x)sum(x[seq(1,5,2)]>=1)==m),] # 25217
   orthogroups_from_m_legume_with_NGRs <- orthogroups_from_m_legume[apply(orthogroups_from_m_legume,1,function(x)sum(x[seq(2,6,2)]>=1)==m),] # 1939
@@ -335,13 +335,13 @@ for (m in seq(1:3)){
 
 ##
 ## combining the two set 
-ortho_AMF <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)  # 64595
+ortho_AMF <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)  # 64595
 #P1
 ortho_AMF_in_nonlegume <- ortho_AMF[apply(ortho_AMF,1,function(x)sum(x[seq(8,12,2)]>=1)>=1),] # at least one AMF gene in at least one nonlegume 
 ortho_AMF_in_legume <- ortho_AMF[apply(ortho_AMF,1,function(x)sum(x[seq(2,6,2)]>=1)>=1),]     # at least one AMF gene in at least one legume
 
 
-ortho_NFS <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)
+ortho_NFS <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)
 ortho_NFS_in_legume <- ortho_NFS[apply(ortho_NFS,1,function(x)sum(x[seq(2,6,2)]>=1)>=1),] # at least one NRG in at least one legume
 
 a<- intersect(rownames(ortho_AMF_in_nonlegume),rownames(ortho_AMF_in_legume)) # at least one AMF gene in at least one non-legume  and at least one AMF gene in at least one legume
@@ -380,13 +380,13 @@ b<- intersect(a,rownames(ortho_NFS_in_legume))
 
 ## more strick 
 ## combining the two set 
-ortho_AMF <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)  # 64595
+ortho_AMF <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)  # 64595
 #P1
 ortho_AMF_in_nonlegume <- ortho_AMF[apply(ortho_AMF,1,function(x)sum(x[seq(8,12,2)]>=1)>=2),]
 ortho_AMF_in_legume <- ortho_AMF[apply(ortho_AMF,1,function(x)sum(x[seq(2,6,2)]>=1)>=2),]
 
 
-ortho_NFS <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)
+ortho_NFS <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)
 ortho_NFS_in_legume <- ortho_NFS[apply(ortho_NFS,1,function(x)sum(x[seq(2,6,2)]>=1)>=2),]
 
 a<- intersect(rownames(ortho_AMF_in_nonlegume),rownames(ortho_AMF_in_legume))
@@ -425,13 +425,13 @@ b<- intersect(a,rownames(ortho_NFS_in_legume))
 ## more more strick
 
 ## combining the two set 
-ortho_AMF <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)  # 64595
+ortho_AMF <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/AMS_orthologous.txt",header = T,row.names = 1)  # 64595
 #P1
 ortho_AMF_in_nonlegume <- ortho_AMF[apply(ortho_AMF,1,function(x)sum(x[seq(8,12,2)]>=1)>=3),]
 ortho_AMF_in_legume <- ortho_AMF[apply(ortho_AMF,1,function(x)sum(x[seq(2,6,2)]>=1)>=3),]
 
 
-ortho_NFS <- read.table("/home/wuzefeng/MyResearch/RNA-Seq_WET/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)
+ortho_NFS <- read.table("/home/wuzefeng/MyResearch/RNA-Seq/2cross_species_compare/NFS_orthogous.V2",header = T,row.names = 1)
 ortho_NFS_in_legume <- ortho_NFS[apply(ortho_NFS,1,function(x)sum(x[seq(2,6,2)]>=1)>=3),]
 
 a<- intersect(rownames(ortho_AMF_in_nonlegume),rownames(ortho_AMF_in_legume))
