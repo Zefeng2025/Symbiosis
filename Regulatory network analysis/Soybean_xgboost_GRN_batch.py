@@ -40,7 +40,7 @@ for m in range(0,len(target_genes)):
     train_y = data[target_gene]
     train_x = data[list(set(list(data)) & set(TFs))] # using all TFs as train_x fatures 
     if target_gene in train_x.columns.values:
-        train_x = train_x.drop(target_gene, 1) # 如果预测的基因是TF，则从train_x去除
+        train_x = train_x.drop(target_gene, 1) 
         
     # make training matrix
     dtrain=xgb.DMatrix(train_x,train_y) 
